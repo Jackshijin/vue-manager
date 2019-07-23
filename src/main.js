@@ -5,9 +5,11 @@ import App from './App'
 import router from './router'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
+import './assets/css/reset.css'
+import MyPlugin from './plugins/http'
 
 Vue.use(ElementUI)
-
+Vue.use(MyPlugin)
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
