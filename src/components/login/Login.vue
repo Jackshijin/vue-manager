@@ -29,20 +29,19 @@ export default {
   },
   methods: {
     // 登录请求
-    handleLogin() {
+    handleLogin () {
       this.$http.post('login', this.formData).then(res => {
         // console.log(res)
         // 对象解构赋值
         const {
-          data,meta:{msg,status}
+          data, meta: {msg, status}
         } = res.data
         if (status === 200) {
           // 1、登录成功跳转首页
-          // this.$router.push({name: 'home'})
+          this.$router.push({name: 'home'})
           // 2、提示登录成功
           this.$message.success(msg)
-        }
-        else {
+        } else {
           // 3、提示登录的不成功的原因
           this.$message.warning(msg)
         }
