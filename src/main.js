@@ -7,11 +7,15 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import './assets/css/reset.css'
 import MyPlugin from './plugins/http'
-
+import moment from 'moment'
 Vue.use(ElementUI)
 Vue.use(MyPlugin)
 Vue.config.productionTip = false
 
+// 全局过滤器
+Vue.filter('fmtdate', (v) => {
+  return moment(v).format('YYYY-MM-DD')
+})
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

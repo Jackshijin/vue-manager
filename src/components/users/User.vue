@@ -20,7 +20,7 @@
 
    <!--3、表格-->
    <el-table
-     :data="tableData"
+     :data="userList"
      style="width: 100%">
      <el-table-column
        type="index"
@@ -28,30 +28,45 @@
        width="60">
      </el-table-column>
      <el-table-column
-       prop="name"
+       prop="username"
        label="姓名"
        width="80">
      </el-table-column>
      <el-table-column
-       prop="address"
+       prop="email"
        label="邮箱">
      </el-table-column>
      <el-table-column
-       prop="address"
+       prop="mobile"
        label="电话">
      </el-table-column>
+
      <el-table-column
-       prop="address"
        label="创建时间">
+       <!--template 内部使用外部数据，设置slot-scope 属性,该属性目前已经废除，查看文档改用以下写法-->
+       <template slot-scope="scope">
+         <!--创建时间格式化-->
+         {{scope.row.create_time | fmtdate}}
+       </template>
      </el-table-column>
+
      <el-table-column
-       prop="address"
+       prop="mg_state"
        label="用户状态">
+       <template slot-scope="slotProps">
+         <el-switch
+           v-model="slotProps.row.mg_state"
+           active-color="#13ce66"
+           inactive-color="#ff4949">
+         </el-switch>
+       </template>
      </el-table-column>
+
      <el-table-column
        prop="address"
        label="操作">
      </el-table-column>
+
    </el-table>
    <!--4、分页-->
  </el-card>
@@ -64,6 +79,9 @@ export default {
       query: '',
       pagenum: 1,
       pagesize: 2,
+      userList: [],
+      // 分页数据
+      total: -1,
       tableData: [{
         date: '2016-05-02',
         name: '王小虎',
@@ -93,7 +111,18 @@ export default {
       const AUTH_TOKEN = localStorage.getItem('token')
       this.$http.defaults.headers.common['Authorization'] = AUTH_TOKEN
       const res = await this.$http.get(`users?query=${this.query}&pagenum=${this.pagenum}&pagesize=${this.pagesize}`)
-      console.log(res)
+      // console.log(res)
+      const {meta: {status, msg}, data: {users, total}} = res.data
+      if (status === 200) {
+        // 1、给表格数据赋值
+        this.userList = users
+        // 2、total赋值
+        this.total = total
+        // 3、成功提示
+        this.$message.success(msg)
+      } else {
+        this.$message.warning(msg)
+      }
     }
   }
 }
