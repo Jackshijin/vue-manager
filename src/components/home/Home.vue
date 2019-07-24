@@ -107,7 +107,14 @@
 
 <script>
 export default {
-
+  // 有实例之前自动触发
+  beforeCreate () {
+    // 获取token
+    const token = localStorage.getItem('token')
+    if (!token) {
+      this.$router.push({name: 'login'})
+    }
+  }
 }
 </script>
 
