@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Login from './../components/login/Login'
 import Home from './../components/home/Home'
 import User from './../components/users/User'
+import Rights from './../components/rights/Rights'
 Vue.use(Router)
 
 export default new Router({
@@ -16,11 +17,18 @@ export default new Router({
       name: 'home',
       path: '/',
       component: Home,
-      children: [{
-        name: 'users',
-        path: 'users',
-        component: User
-      }]
+      children: [
+        {
+          name: 'users',
+          path: 'users',
+          component: User
+        },
+        {
+          name: 'rights',
+          path: '/rights',
+          component: Rights
+        }
+      ]
     }
   ]
 })
