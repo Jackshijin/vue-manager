@@ -15,16 +15,18 @@
           <template slot-scope="scope">
             <el-row v-for="(item1,index) in scope.row.children" :key="index">
               <el-col :span="4">
-                <el-tag>{{item1.authName}}</el-tag>
+                <el-tag type="" closable>{{item1.authName}}</el-tag>
+                <i class="el-icon-arrow-right"></i>
               </el-col>
               <el-col :span="20">
 
                 <el-row v-for="(item2, index) in item1.children" :key="index">
                   <el-col :span="4">
-                    <el-tag>{{item2.authName}}</el-tag>
+                    <el-tag type="success" closable>{{item2.authName}}</el-tag>
+                    <i class="el-icon-arrow-right"></i>
                   </el-col>
                   <el-col :span="20">
-                    <el-tag v-for="(item3, index) in item2.children" :key="index">{{item3.authName}}</el-tag>
+                    <el-tag type="warning" closable v-for="(item3, index) in item2.children" :key="index">{{item3.authName}}</el-tag>
                   </el-col>
                 </el-row>
               </el-col>
