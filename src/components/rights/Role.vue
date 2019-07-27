@@ -10,17 +10,22 @@
       </el-row>
 
       <!--角色表格-->
-      <el-table height="350px" :data="roleList" style="width: 100%">
+      <el-table height="400px" :data="roleList" style="width: 100%">
         <el-table-column type="expand" width="80">
           <template slot-scope="scope">
-            <el-row v-for="(item,index) in scope.row.children" :key="index">
+            <el-row v-for="(item1,index) in scope.row.children" :key="index">
               <el-col :span="4">
-                <el-tag>{{item.authName}}</el-tag>
+                <el-tag>{{item1.authName}}</el-tag>
               </el-col>
               <el-col :span="20">
-                <el-row>
-                  <el-col :span="4"></el-col>
-                  <el-col :span="20"></el-col>
+
+                <el-row v-for="(item2, index) in item1.children" :key="index">
+                  <el-col :span="4">
+                    <el-tag>{{item2.authName}}</el-tag>
+                  </el-col>
+                  <el-col :span="20">
+                    <el-tag v-for="(item3, index) in item2.children" :key="index">{{item3.authName}}</el-tag>
+                  </el-col>
                 </el-row>
               </el-col>
             </el-row>
