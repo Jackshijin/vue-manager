@@ -15,22 +15,25 @@
           <template slot-scope="scope">
             <el-row v-for="(item1,index) in scope.row.children" :key="index">
               <el-col :span="4">
-                <el-tag type="" closable>{{item1.authName}}</el-tag>
+                <el-tag @close="deleteRight(scope.row
+                ,item1.id)" type="" closable>{{item1.authName}}</el-tag>
                 <i class="el-icon-arrow-right"></i>
               </el-col>
               <el-col :span="20">
 
                 <el-row v-for="(item2, index) in item1.children" :key="index">
                   <el-col :span="4">
-                    <el-tag type="success" closable>{{item2.authName}}</el-tag>
+                    <el-tag @close="deleteRight(scope.row,item2.id)" type="success" closable>{{item2.authName}}</el-tag>
                     <i class="el-icon-arrow-right"></i>
                   </el-col>
                   <el-col :span="20">
-                    <el-tag type="warning" closable v-for="(item3, index) in item2.children" :key="index">{{item3.authName}}</el-tag>
+                    <el-tag @close="deleteRight(scope.row,item3.id)" type="warning" closable v-for="(item3, index) in item2.children" :key="index">{{item3.authName}}</el-tag>
                   </el-col>
                 </el-row>
               </el-col>
             </el-row>
+            <!--未分配权限时的提示-->
+            <span v-if="scope.row.children.length === 0" class="noRightTip">未为该角色分配权限</span>
           </template>
         </el-table-column>
 
@@ -58,7 +61,7 @@
 <script>
  export default {
    name: "Role",
-   created() {
+   created () {
      this.getRoleList()
    },
    data() {
@@ -67,11 +70,20 @@
      }
    },
    methods: {
-     async getRoleList() {
+     async getRoleList () {
 
        const res = await this.$http.get(`roles`)
        console.log(res) // 数据在 res.data.data 中
        this.roleList = res.data.data
+     },
+     // 取消权限 请求路径：roles/:roleId/rights/:rightId   请求方法：delete
+     // 删除权限，后台返回200状态码 和 还剩下的权限
+      async deleteRight (role,rightId) {
+      const res = await this.$http.delete(`roles/${role.id}/rights/${rightId}`)
+
+       role.children = res.data.data
+      // this.getRoleList()
+      console.log(res)
      }
    }
  }
@@ -80,5 +92,9 @@
 <style>
   .addRoleBtn {
     margin-top: 15px;
+  }
+  .noRightTip {
+    margin-left: 100px;
+    color: #FF7F24;
   }
 </style>
