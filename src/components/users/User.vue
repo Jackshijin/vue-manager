@@ -20,31 +20,13 @@
     </el-row>
 
    <!--3、表格-->
-   <el-table
-     height="350px"
-     :data="userList"
-     style="width: 100%">
-     <el-table-column
-       type="index"
-       label="#"
-       width="60">
-     </el-table-column>
-     <el-table-column
-       prop="username"
-       label="姓名"
-       width="80">
-     </el-table-column>
-     <el-table-column
-       prop="email"
-       label="邮箱">
-     </el-table-column>
-     <el-table-column
-       prop="mobile"
-       label="电话">
-     </el-table-column>
+   <el-table height="350px" :data="userList" style="width: 100%">
+     <el-table-column type="index" label="#" width="60"></el-table-column>
+     <el-table-column prop="username" label="姓名" width="80"></el-table-column>
+     <el-table-column prop="email" label="邮箱"></el-table-column>
+     <el-table-column prop="mobile" label="电话"></el-table-column>
 
-     <el-table-column
-       label="创建时间">
+     <el-table-column label="创建时间">
        <!--template 内部使用外部数据，设置slot-scope 属性,该属性目前已经废除，查看文档改用以下写法-->
        <template slot-scope="scope">
          <!--创建时间格式化-->
@@ -52,9 +34,7 @@
        </template>
      </el-table-column>
 
-     <el-table-column
-       prop="mg_state"
-       label="用户状态">
+     <el-table-column prop="mg_state" label="用户状态">
        <template slot-scope="slotProps">
          <el-switch
            @change="changeMgData(slotProps.row)"
@@ -338,8 +318,9 @@ export default {
       // | pagesize | 每页显示条数 | 不能为空
 
       // 需要授权的 API ，必须在请求头中使用 `Authorization` 字段提供 `token` 令牌
-      const AUTH_TOKEN = localStorage.getItem('token')
-      this.$http.defaults.headers.common['Authorization'] = AUTH_TOKEN
+      // const AUTH_TOKEN = localStorage.getItem('token')
+      // this.$http.defaults.headers.common['Authorization'] = AUTH_TOKEN
+
       const res = await this.$http.get(`users?query=${this.query}&pagenum=${this.pagenum}&pagesize=${this.pagesize}`)
       // console.log(res)
       const {meta: {status, msg}, data: {users, total}} = res.data
