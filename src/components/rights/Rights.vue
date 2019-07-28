@@ -39,7 +39,7 @@
         // const AUTH_TOKEN = localStorage.getItem('token')
         // this.$http.defaults.headers.common['Authorization'] = AUTH_TOKEN
         const res = await this.$http.get(`rights/list`)
-        console.log(res) // 数据在 res.data.data 中
+        // console.log(res) // 数据在 res.data.data 中
         this.rightList = res.data.data
 
       }

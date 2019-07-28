@@ -7,10 +7,10 @@ MyPlugin.install = (Vue) => {
   // 在请求发起之前进行拦截，统一设置头部
   // 添加请求拦截器
   axios.interceptors.request.use(function (config) {
-    console.log('拦截器触发了')
-    console.log(config.url)
+    // console.log('拦截器触发了')
+    // console.log(config.url)
     if (config.url !== 'login') {
-      console.log('非登陆url')
+       //console.log('非登陆url')
       const AUTH_TOKEN = localStorage.getItem('token')
       config.headers['Authorization'] = AUTH_TOKEN
     }

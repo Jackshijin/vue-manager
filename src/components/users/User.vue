@@ -185,7 +185,7 @@ export default {
     //请求路径：users/:id/role 请求方法：put :id-->要修改的用户id
     async setRole () {
       const res = await this.$http.put(`users/${this.currentUserId}/role`, {rid: this.currentRoleId})
-      console.log(res)
+      // console.log(res)
       // 关闭对话框
       this.dialogFormVisibleRole = false
     },
@@ -228,7 +228,7 @@ export default {
         // 3、提示
         this.$message.success(res.data.meta.msg)
       }
-      console.log(res)
+      // console.log(res)
     },
     // 编辑用户对话框
     showEditUser (userData) {
@@ -301,13 +301,13 @@ export default {
     },
     // 分页相关的写法
     handleSizeChange (val) {
-      console.log(`每页 ${val} 条`)
+      // console.log(`每页 ${val} 条`)
       this.pagesize = val
       this.pagenum = 1
       this.getUserList()
     },
     handleCurrentChange (val) {
-      console.log(`当前页: ${val}`)
+     // console.log(`当前页: ${val}`)
       this.pagenum = val
       this.getUserList()
     },

@@ -49,12 +49,35 @@
             <el-row>
               <el-button type="primary" size="mini" plain icon="el-icon-edit" circle @click="showEditUser(scope.row)"></el-button>
               <el-button type="danger" size="mini" plain icon="el-icon-delete" circle @click="showUserDelete(scope.row.id)"></el-button>
-              <el-button type="success" size="mini" plain icon="el-icon-check" circle @click="showSetUserRole(scope.row)"></el-button>
+              <el-button type="success" size="mini" plain icon="el-icon-check" circle @click="showSetRight(scope.row)"></el-button>
             </el-row>
           </template>
         </el-table-column>
 
       </el-table>
+      <!--修改权限对话框-->
+      <el-dialog title="修改权限" :visible.sync="dialogFormVisibleRight">
+        <!--
+        树形结构
+        data: 展示数据  show-checkbox: 展示选择的方框  node-key:树形结构中节点的唯一标识
+        default-expanded-keys: 默认展开的节点，为数组    default-checked-keys: 默认选择的节点，数据类型也是数组
+        props: 配置选项，包括label:指定节点标签为节点对象的某个属性值；children:指定子树为节点对象的某个属性值
+               disabled:指定节点选择框是否禁用为节点的某个属性值    isLeaf:指定节点是否为子节点，需要指定lazy属性
+        -->
+        <el-tree
+          :data="treeList"
+          default-expand-all
+          :default-checked-keys="arrChecked"
+          show-checkbox
+          node-key="id"
+          :props="defaultProps">
+        </el-tree>
+
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="dialogFormVisibleRight = false">取 消</el-button>
+          <el-button type="primary" @click="dialogFormVisibleRight = false">确 定</el-button>
+        </div>
+      </el-dialog>
     </el-card>
 </template>
 
@@ -66,10 +89,54 @@
    },
    data() {
      return {
-       roleList: []
+       data1:{},
+       dialogFormVisibleRight:false,
+       roleList: [],
+       // 树形结构数据
+       treeList: [],
+       defaultProps: {
+         label: 'authName',
+         children: 'children'
+       },
+       arrExpand: [],
+       arrChecked: []
      }
    },
    methods: {
+     // 树形结构的各级id转换成一维数组
+
+     // 点击按钮打开对话框
+     async showSetRight(role) {
+       console.log(role)
+       // 获取树心结构的数据
+      const res = await this.$http.get(`rights/tree`)
+      this.treeList = res.data.data
+      // let arrTemp = []
+      // this.treeList.forEach(item1 => {
+      //   arrTemp.push(item1.id)
+      //   item1.children.forEach(item2 => {
+      //     arrTemp.push(item2.id)
+      //     item2.children.forEach(item3 => {
+      //       arrTemp.push(item3.id)
+      //     })
+      //   })
+      // })
+      // // console.log(arrTemp)
+      // this.arrExpand = arrTemp
+      // console.log(res)
+
+       // 获取当前角色的权限
+       let arrTemp2 = []
+       role.children.forEach(item1 => {
+         item1.children.forEach(item2 => {
+           item2.children.forEach(item3 => {
+             arrTemp2.push(item3.id)
+           })
+         })
+       })
+       this.arrChecked = arrTemp2
+       this.dialogFormVisibleRight = true
+     },
      async getRoleList () {
 
        const res = await this.$http.get(`roles`)
