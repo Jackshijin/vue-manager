@@ -47,8 +47,8 @@
           label="操作">
           <template slot-scope="scope">
             <el-row>
-              <el-button type="primary" size="mini" plain icon="el-icon-edit" circle @click="showEditUser(scope.row)"></el-button>
-              <el-button type="danger" size="mini" plain icon="el-icon-delete" circle @click="showUserDelete(scope.row.id)"></el-button>
+              <el-button type="primary" size="mini" plain icon="el-icon-edit" circle @click="showRoleEdit(scope.row)"></el-button>
+              <el-button type="danger" size="mini" plain icon="el-icon-delete" circle @click="showRoleDelete(scope.row.id)"></el-button>
               <el-button type="success" size="mini" plain icon="el-icon-check" circle @click="showSetRight(scope.row)"></el-button>
             </el-row>
           </template>
@@ -79,6 +79,26 @@
           <el-button type="primary" @click="setRoleRight()">确 定</el-button>
         </div>
       </el-dialog>
+
+      <!--编辑角色对话框-->
+      <el-dialog title="编辑角色" :visible.sync="dialogFormVisibleRoleEdit">
+        <el-form :model="form">
+          <el-form-item label="角色ID" :label-width="formLabelWidth">
+            <el-input v-model="form.roleId" disabled autocomplete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="角色名称" :label-width="formLabelWidth">
+            <el-input v-model="form.roleName" autocomplete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="角色描述" :label-width="formLabelWidth">
+            <el-input v-model="form.roleDesc" autocomplete="off"></el-input>
+          </el-form-item>
+
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="dialogFormVisibleRoleEdit = false">取 消</el-button>
+          <el-button type="primary" @click="editRoleData()">确 定</el-button>
+        </div>
+      </el-dialog>
     </el-card>
 </template>
 
@@ -101,10 +121,65 @@
        },
        arrExpand: [],
        arrChecked: [],
-       currentRoleId: -1
+       currentRoleId: -1,
+       // 编辑角色数据
+       dialogFormVisibleRoleEdit: false,
+       formLabelWidth: '120px',
+       form: {
+         roleId: '',
+         roleName: '',
+         roleDesc: ''
+       }
      }
    },
    methods: {
+     // 点击确定按钮发送请求  请求路径：roles/:id 请求方法：put
+     // await this.$http.put('roles/' + this.editForm.id, this.editForm)
+     async editRoleData () {
+       const res = await this.$http.put(`roles/${this.form.roleId}`, this.form)
+       this.getRoleList()
+       this.dialogFormVisibleRoleEdit = false
+       return (res.data.meta.status===200) ? this.$message.success('编辑信息成功') : this.$message.error(res.data.meta.msg)
+       // console.log(res)
+
+     },
+     // 删除角色
+     showRoleDelete (roleId) {
+      // 打开一个提醒确认删除按钮
+       this.$confirm('删除该角色，是否继续？','注意',{
+         confirmButtonText: '确定',
+         cancelButtonText: '取消',
+         type: 'warning'
+       }).then(async() => {
+         // 发送请求 ->请求路径：roles/:id请求方法：delete
+         const res = await this.$http.delete(`roles/${roleId}`)
+         console.log(res)
+         if (res.data.meta.status === 200) {
+           // 更新视图
+           this.getRoleList()
+           // 提醒
+           this.$message({
+             type: 'success',
+             message: res.data.meta.msg
+           })
+         }
+       }).catch(() => {
+         this.$message({
+           type: 'info',
+           message: '已取消删除'
+         })
+       })
+     },
+
+     // 编辑角色
+     showRoleEdit (roleData) {
+       // 显示对话框
+       this.dialogFormVisibleRoleEdit = true
+       this.form.roleId = roleData.id
+       this.form.roleName = roleData.roleName
+       this.form.roleDesc = roleData.roleDesc
+       console.log(roleData)
+     },
     // 修改权限 发送请求  请求路径：roles/:roleId/rights 请求方法：post
      async setRoleRight() {
        // 获取全选的id getCheckedKeys()
