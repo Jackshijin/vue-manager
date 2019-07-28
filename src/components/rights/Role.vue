@@ -65,6 +65,7 @@
                disabled:指定节点选择框是否禁用为节点的某个属性值    isLeaf:指定节点是否为子节点，需要指定lazy属性
         -->
         <el-tree
+          ref="tree"
           :data="treeList"
           default-expand-all
           :default-checked-keys="arrChecked"
@@ -75,7 +76,7 @@
 
         <div slot="footer" class="dialog-footer">
           <el-button @click="dialogFormVisibleRight = false">取 消</el-button>
-          <el-button type="primary" @click="dialogFormVisibleRight = false">确 定</el-button>
+          <el-button type="primary" @click="setRoleRight()">确 定</el-button>
         </div>
       </el-dialog>
     </el-card>
@@ -99,32 +100,36 @@
          children: 'children'
        },
        arrExpand: [],
-       arrChecked: []
+       arrChecked: [],
+       currentRoleId: -1
      }
    },
    methods: {
-     // 树形结构的各级id转换成一维数组
+    // 修改权限 发送请求  请求路径：roles/:roleId/rights 请求方法：post
+     async setRoleRight() {
+       // 获取全选的id getCheckedKeys()
+       let arr1 = this.$refs.tree.getCheckedKeys()
+       // 获取半选的id getHalfCheckedKeys()
+       let arr2 = this.$refs.tree.getHalfCheckedKeys()
+       // 进行合并 赋给 rids
+       let arr = [...arr1, ...arr2]
+       // console.log(arr)
+       const res = await this.$http.post(`roles/${this.currentRoleId}/rights`, {rids:arr.join(',')})
+       console.log(res)
+       // 更新视图
+       this.getRoleList()
+       // 关闭对话框
+       this.dialogFormVisibleRight = false
+     },
 
      // 点击按钮打开对话框
      async showSetRight(role) {
-       console.log(role)
+       // console.log(role)
+       // 给currentRoleId 赋值
+       this.currentRoleId = role.id
        // 获取树心结构的数据
       const res = await this.$http.get(`rights/tree`)
       this.treeList = res.data.data
-      // let arrTemp = []
-      // this.treeList.forEach(item1 => {
-      //   arrTemp.push(item1.id)
-      //   item1.children.forEach(item2 => {
-      //     arrTemp.push(item2.id)
-      //     item2.children.forEach(item3 => {
-      //       arrTemp.push(item3.id)
-      //     })
-      //   })
-      // })
-      // // console.log(arrTemp)
-      // this.arrExpand = arrTemp
-      // console.log(res)
-
        // 获取当前角色的权限
        let arrTemp2 = []
        role.children.forEach(item1 => {
@@ -147,10 +152,7 @@
      // 删除权限，后台返回200状态码 和 还剩下的权限
       async deleteRight (role,rightId) {
       const res = await this.$http.delete(`roles/${role.id}/rights/${rightId}`)
-
        role.children = res.data.data
-      // this.getRoleList()
-      console.log(res)
      }
    }
  }
