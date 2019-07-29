@@ -5,7 +5,7 @@
       <!--按钮-->
       <el-row class="addRoleBtn">
         <el-col>
-          <el-button type="info">添加角色</el-button>
+          <el-button type="info" @click="showAddRoleData()">添加角色</el-button>
         </el-col>
       </el-row>
 
@@ -99,6 +99,24 @@
           <el-button type="primary" @click="editRoleData()">确 定</el-button>
         </div>
       </el-dialog>
+
+      <!--添加角色对话框-->
+      <el-dialog title="添加角色" :visible.sync="dialogFormVisibleAddRole">
+        <el-form :model="formRole">
+          <el-form-item label="角色名称" :label-width="formLabelWidth">
+            <el-input v-model="formRole.roleName" autocomplete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="角色描述" :label-width="formLabelWidth">
+            <el-input v-model="formRole.roleDesc" autocomplete="off"></el-input>
+          </el-form-item>
+
+
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="dialogFormVisibleAddRole = false">取 消</el-button>
+          <el-button type="primary" @click="addRoleData()">确 定</el-button>
+        </div>
+      </el-dialog>
     </el-card>
 </template>
 
@@ -110,6 +128,13 @@
    },
    data() {
      return {
+       // 添加角色数据
+       dialogFormVisibleAddRole: false,
+       form: {
+         roleId: '',
+         roleName: '',
+         roleDesc: ''
+       },
        data1:{},
        dialogFormVisibleRight:false,
        roleList: [],
@@ -125,14 +150,32 @@
        // 编辑角色数据
        dialogFormVisibleRoleEdit: false,
        formLabelWidth: '120px',
-       form: {
-         roleId: '',
+       formRole: {
          roleName: '',
          roleDesc: ''
        }
      }
    },
    methods: {
+     // 点击添加角色按钮，显示弹窗
+     showAddRoleData () {
+       this.dialogFormVisibleAddRole = true
+     },
+     // 添加角色按钮 点击发送请求 请求路径：roles 请求方法：post
+     async addRoleData () {
+       // 关闭对话框
+       this. dialogFormVisibleAddRole = false
+       // 发送请求
+       const res = await this.$http.post('roles', this.formRole)
+       // 提醒
+       if (res.data.meta.status !== 201) return this.$message.error('创建角色失败！')
+       this.$message.success('创建角色成功！')
+       // 更新视图
+       this.getRoleList()
+       // 再次打开输入框清空
+       this.formRole = {}
+       // console.log(res)
+     },
      // 点击确定按钮发送请求  请求路径：roles/:id 请求方法：put
      // await this.$http.put('roles/' + this.editForm.id, this.editForm)
      async editRoleData () {
