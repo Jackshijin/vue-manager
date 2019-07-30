@@ -196,7 +196,7 @@
        }).then(async() => {
          // 发送请求 ->请求路径：roles/:id请求方法：delete
          const res = await this.$http.delete(`roles/${roleId}`)
-         console.log(res)
+         // console.log(res)
          if (res.data.meta.status === 200) {
            // 更新视图
            this.getRoleList()

@@ -57,7 +57,7 @@ export default {
     async getMenus() {
       const res = await this.$http.get(`menus`)
       this.menus = res.data.data
-      console.log(res)
+      // console.log(res)
     },
     handleSignOut () {
       // 1、清除token值

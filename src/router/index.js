@@ -5,6 +5,8 @@ import Home from './../components/home/Home'
 import User from './../components/users/User'
 import Rights from './../components/rights/Rights'
 import Role from './../components/rights/Role'
+import GoodsList from './../components/goods/goodsList'
+import GoodsAdd from '../components/goods/goodsadd'
 import {Message} from 'element-ui'
 Vue.use(Router)
 
@@ -34,6 +36,16 @@ Vue.use(Router)
           name: 'roles',
           path: '/roles',
           component: Role
+        },
+        {
+          name: 'goods',
+          path: '/goods',
+          component: GoodsList
+        },
+        {
+          name: 'goodsadd',
+          path: '/goodsadd',
+          component: GoodsAdd
         }
       ]
     }
