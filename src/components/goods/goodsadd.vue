@@ -62,7 +62,11 @@
             </el-checkbox-group>
           </el-form-item>
         </el-tab-pane>
-        <el-tab-pane name="3" label="商品属性">商品属性</el-tab-pane>
+        <el-tab-pane name="3" label="商品属性">
+          <el-form-item :label="item.attr_name" v-for="(item,index) in arrStaticData" :key="index">
+            <el-input v-model="item.attr_vals"></el-input>
+          </el-form-item>
+        </el-tab-pane>
         <el-tab-pane name="4" label="商品图片">商品图片</el-tab-pane>
         <el-tab-pane name="5" label="商品内容">商品内容</el-tab-pane>
       </el-tabs>
@@ -105,7 +109,10 @@ export default {
         expandTrigger: 'hover'
       },
       // 商品基本信息参数数据
+      // 动态参数数组
       arrGoodsData: [],
+      // 静态参数数组
+      arrStaticData: [],
       checkList: []
     }
   },
@@ -129,8 +136,18 @@ export default {
           this.arrGoodsData.forEach(item => {
             item.attr_vals =  item.attr_vals.length === 0 ? [] : item.attr_vals.trim().split(',')
           })
-          console.log(res)
+          // console.log(res)
         }
+
+      } else if (this.active === '3') {
+        if (this.selectedOptions.length !== 3) {
+          this.$message.warning('请先选择商品的三级分类')
+          return
+        }
+        // 三级分类 tab=3 获取静态参数数据
+        const res1 = await this.$http.get(`categories/${this.selectedOptions[2]}/attributes?sel=only`)
+        this.arrStaticData = res1.data.data
+        console.log(res1)
 
       }
     },
