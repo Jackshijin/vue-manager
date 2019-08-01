@@ -7,6 +7,7 @@ import Rights from './../components/rights/Rights'
 import Role from './../components/rights/Role'
 import GoodsList from './../components/goods/goodsList'
 import GoodsAdd from '../components/goods/goodsadd'
+import Cateparams from '../components/goods/cateparams'
 import {Message} from 'element-ui'
 Vue.use(Router)
 
@@ -46,6 +47,11 @@ Vue.use(Router)
           name: 'goodsadd',
           path: '/goodsadd',
           component: GoodsAdd
+        },
+        {
+          name: 'params',
+          path: '/params',
+          component:  Cateparams
         }
       ]
     }
