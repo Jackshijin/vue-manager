@@ -21,7 +21,7 @@
     <el-tabs v-model="activeName" @tab-click="handleClick">
       <el-tab-pane label="动态参数" name="many">
         <!--按钮-->
-        <el-button type="primary" size="mini" :disabled="this.selectedOptions.length !== 3 " @click="addDialogVisible=true">添加参数</el-button>
+        <el-button type="primary" size="mini" :disabled="this.selectedOptions.length !== 3 " @click="addDialogVisible=true" class="el-btn">添加参数</el-button>
         <!--表格-->
         <el-table :data="arrGoodsData" style="width: 100%">
           <el-table-column type="expand" label="#">
@@ -302,6 +302,9 @@ export default {
 <style>
 .el-alert {
   margin-top: 15px;
+}
+.el-btn {
+  margin: 10px 0;
 }
 .formParams {
   margin-top: 15px;
