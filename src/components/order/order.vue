@@ -47,7 +47,11 @@
       <el-form :model="addressForm" :rules="addressFormRules" ref="addressFormRef" label-width="100px">
         <el-form-item label="省市区/县" prop="address1">
           <!-- 使用级联选择器，加载省市区县的数据 -->
-          <el-cascader :options="cityData"></el-cascader>
+          <el-cascader
+            :options="cityData"
+            clearable
+            :props="defaultProp"
+          ></el-cascader>
         </el-form-item>
         <el-form-item label="详细地址" prop="address2">
           <el-input v-model="addressForm.address2"></el-input>
@@ -95,6 +99,9 @@ import cityData from '../../assets/city_data'
        },
        // 省市区的数据
        cityData: cityData,
+       defaultProp: {
+         expandTrigger: 'hover'
+       },
        // 物流信息数据
        expressDialogVisible: false,
        expressInfo: []
