@@ -47,8 +47,8 @@
         prop="address"
         label="操作">
         <template slot-scope="scope">
-          <el-button  @click="handleOpenEdit(scope.row)" plain size="mini" type="primary" icon="el-icon-edit" circle></el-button>
-          <el-button  @click="handleDelete(scope.row.cat_id)" plain size="mini" type="danger" icon="el-icon-delete" circle></el-button>
+          <el-button  @click="handleOpenEdit(scope.row)" plain size="mini" type="primary" icon="el-icon-edit" circle title="编辑"></el-button>
+          <el-button  @click="handleDelete(scope.row.cat_id)" plain size="mini" type="danger" icon="el-icon-delete" circle title="删除"></el-button>
         </template>
       </el-table-column>
     </el-table>

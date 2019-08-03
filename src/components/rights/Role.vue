@@ -47,9 +47,9 @@
           label="操作">
           <template slot-scope="scope">
             <el-row>
-              <el-button type="primary" size="mini" plain icon="el-icon-edit" circle @click="showRoleEdit(scope.row)"></el-button>
-              <el-button type="danger" size="mini" plain icon="el-icon-delete" circle @click="showRoleDelete(scope.row.id)"></el-button>
-              <el-button type="success" size="mini" plain icon="el-icon-check" circle @click="showSetRight(scope.row)"></el-button>
+              <el-button type="primary" size="mini" plain icon="el-icon-edit" circle @click="showRoleEdit(scope.row)" title="编辑角色"></el-button>
+              <el-button type="danger" size="mini" plain icon="el-icon-delete" circle @click="showRoleDelete(scope.row.id)" title="删除角色"></el-button>
+              <el-button type="success" size="mini" plain icon="el-icon-check" circle @click="showSetRight(scope.row)" title="修改权限"></el-button>
             </el-row>
           </template>
         </el-table-column>

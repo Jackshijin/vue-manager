@@ -51,8 +51,8 @@
           <el-table-column label="操作">
             <template slot-scope="scope">
               <el-row>
-                <el-button type="primary" size="mini" plain icon="el-icon-edit" circle @click="showEditParams(scope)">修改</el-button>
-                <el-button type="danger" size="mini" plain icon="el-icon-delete" circle @click="removeParams(scope)">删除</el-button>
+                <el-button type="primary" size="mini" plain icon="el-icon-edit" circle @click="showEditParams(scope)" title="修改"></el-button>
+                <el-button type="danger" size="mini" plain icon="el-icon-delete" circle @click="removeParams(scope)" title="删除"></el-button>
               </el-row>
             </template>
           </el-table-column>

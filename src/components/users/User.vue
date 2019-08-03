@@ -50,9 +50,9 @@
        label="操作">
        <template slot-scope="scope">
          <el-row>
-           <el-button type="primary" size="mini" plain icon="el-icon-edit" circle @click="showEditUser(scope.row)"></el-button>
-           <el-button type="danger" size="mini" plain icon="el-icon-delete" circle @click="showUserDelete(scope.row.id)"></el-button>
-           <el-button type="success" size="mini" plain icon="el-icon-check" circle @click="showSetUserRole(scope.row)"></el-button>
+           <el-button type="primary" size="mini" plain icon="el-icon-edit" circle @click="showEditUser(scope.row)" title="编辑用户"></el-button>
+           <el-button type="danger" size="mini" plain icon="el-icon-delete" circle @click="showUserDelete(scope.row.id)" title="删除用户"></el-button>
+           <el-button type="success" size="mini" plain icon="el-icon-check" circle @click="showSetUserRole(scope.row)" title="分配角色"></el-button>
          </el-row>
        </template>
      </el-table-column>

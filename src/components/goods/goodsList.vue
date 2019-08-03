@@ -31,8 +31,8 @@
         label="操作">
         <template slot-scope="scope">
           <el-row>
-            <el-button type="primary" size="mini" plain icon="el-icon-edit" circle @click="showGoodsEdit(scope.row)"></el-button>
-            <el-button type="danger" size="mini" plain icon="el-icon-delete" circle @click="removeGoods(scope)"></el-button>
+            <el-button type="primary" size="mini" plain icon="el-icon-edit" circle @click="showGoodsEdit(scope.row)" title="编辑信息"></el-button>
+            <el-button type="danger" size="mini" plain icon="el-icon-delete" circle @click="removeGoods(scope)" title="删除商品"></el-button>
           </el-row>
         </template>
       </el-table-column>
